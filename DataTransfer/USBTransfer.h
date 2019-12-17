@@ -1,61 +1,90 @@
+#pragma once
+
 #ifndef _USBTRANSFER_H_
 #define _USBTRANSFER_H_
 
-#include "CyUsbBase.h"
-#include "stdafx.h"
+#include "./inc/CyAPI.h"
 #pragma comment(linker,"/nodefaultlib:libcmt.lib")
+#pragma comment(lib,"setupapi.lib")
 
 class  CUSBTransfer
 {
 public:
-	CUSBTransfer();
-	~CUSBTransfer();
-
+	CUSBTransfer(void);
+	virtual ~CUSBTransfer(void);
 public:
-	/*-----------设置FPGA的AS或者PS配置----------------------*/
-	BOOL	SetAPMode(BYTE nMode);
-	/*------------------配置FPGA-----------------------------*/
-	BOOL	ConfigDevice(string lpszRbfFile);
-	/*BOOL	ConfigDevice(LPCTSTR lpszRbfFile);*/
-	BOOL	ConfigDevice(PBYTE pData, LONG dwLen);
+	BOOL	OpenUSBDevice();		// 打开USB设备	
+	BOOL	CloseUSBDevice();		// 关闭USB设备	
+	BOOL	USBDeviceStatus();		// 是否已经打开USB设备
+	int     USBDeviceCount();		// 检查USB设备的数量
 
-	/*------------------端口0的图像数据回读------------------*/
-	BOOL	GetImageData(BYTE *pData,long uSize);
-
-	/*------------------端口1的寄存器数据--------------------*/
-	BOOL	SetRegData(REGDATA &vData);
-	BOOL	SetRegData(BYTE vAddr, BYTE *pData, long uSize, BIT_FLAG bitFlag);
-	BOOL	GetRegData(REGDATA &vAddr);
-	BOOL	GetRegData(BYTE vAddr, BYTE *pData, long uSize, BIT_FLAG bitFlag);
-	
-	/*------------------端口2的表格数据-----------------------*/
-	BOOL	SetDT_Data(TABLE_TYPE nType, const BYTE* pData, ULONG uSize);
-	BOOL	GetDT_Data(TABLE_TYPE nType, BYTE* pData, ULONG uSize);
-
-	/*------------------端口3的图像数据满标志回读-------------*/
-	BOOL	GetImageFlag();
-
-	/*------------------端口4的表格数据-----------------------*/
-	BOOL	GetLinkData(BYTE *pData,long uSize);
-
-	/*------------------端口5的采集数据满标志回读-------------*/
-	BOOL	GetLinkFlag();
-
-	/*------------------端口6的数据满标志回读----------------*/
-	BOOL    SetAFE5805(BYTE addr, WORD data);
-public:
-	BOOL	GetHWStatus();			// 获取硬件状态
-	int		GetConfigProcess();		// 获取配置进度
-	DWORD	GetImageFrameNum();		// 获取数据帧计数
-
+	void GetUSBVersion(TCHAR *lpsz, long count);	// 获取USB驱动版本
+	void GetDeviceInfo(TCHAR *lpsz, long count);	// 获取设备硬件版本
+	//LPCTSTR GetManufacturerName(); //获取设备制造商名称
+	//LPCTSTR GetProductName();     //获取产品名称
+//public:
+//	/*!
+//	@brief 读取一个字节
+//	@param  nPort: 端口号,取值[0,255]
+//	@param nData: 读出的字节数据s
+//	@return 成功返回ture, 否则返回false
+//	*/
+//	BOOL Read(BYTE nPort, BYTE & nData);
+//	/*!
+//	@brief 读取一串数据
+//	@param  nPort: 端口号,取值[0,255]
+//	@param  pBuffer: 读出的数据
+//	@param  ulCount: 读取的长度
+//	@return
+//	*/
+//	BOOL Read(BYTE nPort, PBYTE pBuffer, ULONG ulCount);
+//	/*!
+//	@brief 写入一个字节
+//	@param nPort: 端口号,取值[0,255]
+//	@param nData: 写入的数据
+//	@return
+//	*/
+//	BOOL Write(BYTE nPort, BYTE nData);
+//	/*!
+//	@brief 写入一串数据
+//	@param  nPort: 端口号,取值[0,255]
+//	@param pBuffer: 写入的数据
+//	@param ulCount: 写入的字节长度
+//	@return */
+//	BOOL Write(BYTE nPort, const BYTE* pBuffer, ULONG ulCount);
+//
+//public:
+//	/*
+//	@brief 从ep0端点读取一段数据
+//	@param pBuffer 数据指针
+//	@param ulCount 数据大小
+//	@return
+//	*/
+//	BOOL Ep0Read(PBYTE pBuffer, ULONG ulCount);
+//	///PBYTE pBuffer :数据指针	ULONG ulCount :数据大小
+//	BOOL Ep0Write(const BYTE* pBuffer, ULONG ulCount);
+//public:
+//	BOOL Ep0WriteControl(BYTE nCommand, BYTE nPort, BYTE nIndex);
+//	BOOL Ep0ReadControl(PBYTE pBuffer, BYTE nCommand, BYTE nPort, BYTE nLen);
+//	BOOL SetWorkMode(BYTE nCommand);
+//	BOOL SetDownloadMode(BYTE nCommand);
+//	BOOL FinishDownload(BYTE nCommand);
+//	BOOL EraseEPCS(BYTE nCommand);
+//	BOOL ReadFpga(PBYTE pBuffer, BYTE nLen);
+//	BOOL ReadEPCS(PBYTE pBuffer, BYTE nLen);
+//	BOOL Ep4Write(const BYTE* pBuffer, ULONG ulCount, BYTE nEPCS_ID);
+//	BOOL PowerOn();
+//	BOOL ConfigDeviceAS(BYTE nEPCS_ID);
+//protected:
+//	BOOL ReadData(PBYTE pBuffer, ULONG uLength);
+//	BOOL WriteData(const BYTE* pBuffer, ULONG uLength);
+//	BOOL WriteCommand(BYTE nCommand, BYTE nPort);
+//private:
+//	CCyUsbBase(const CCyUsbBase&);
+//	CCyUsbBase&operator=(const CCyUsbBase&);
 private:
-	CCyUsbBase m_usb;		// USB
-	BOOL	   m_hwstatus;	// 硬件状态
-	int		   m_process;	// 配置进度
-	IMAGEHEAD  m_imagehead; // 图像数据头
-	LINKHEAD   m_linkhead;  // 链路数据头
+	CCyUSBDevice *m_pUsbDev;
+	CRITICAL_SECTION m_cs;	//读写同步
 };
 
-
 #endif
-

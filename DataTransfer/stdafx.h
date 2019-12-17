@@ -5,13 +5,19 @@
 
 #pragma once
 
-#include "targetver.h"
-
-#define WIN32_LEAN_AND_MEAN             // 从 Windows 头中排除极少使用的资料
-// Windows 头文件: 
 #include <windows.h>
+#include <WINDEF.H>
+
+// TODO: 在此处引用程序需要的其他头文件
+#include <math.h>
 #include <string.h>
 #include <vector>
+#include <iostream>
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <tchar.h>
+#include "Addr_Define.h"
 
-
+using namespace std;
 // TODO:  在此处引用程序需要的其他头文件
