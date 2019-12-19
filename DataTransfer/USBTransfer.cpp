@@ -77,3 +77,12 @@ void CUSBTransfer::GetUSBVersion(TCHAR *lpszDst, long count)
 	);
 
 }
+
+void CUSBTransfer::GetSerialNumber(TCHAR *lpszDst, long count)
+{
+	if (lpszDst == NULL || count <= 0)		return;
+	if (m_pUsbDev == NULL)					return;
+	if (!m_pUsbDev->IsOpen())				return;
+
+	_tcscpy_s(lpszDst, count, m_pUsbDev->SerialNumber);
+}

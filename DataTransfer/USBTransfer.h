@@ -20,6 +20,7 @@ public:
 
 	void GetUSBVersion(TCHAR *lpsz, long count);	// 获取USB驱动版本
 	void GetDeviceInfo(TCHAR *lpsz, long count);	// 获取设备硬件版本
+	void GetSerialNumber(TCHAR *lpsz, long count);
 	//LPCTSTR GetManufacturerName(); //获取设备制造商名称
 	//LPCTSTR GetProductName();     //获取产品名称
 //public:

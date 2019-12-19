@@ -18,15 +18,18 @@ int main()
 	int usbNumber = 0;
 	TCHAR usbDeviceInfo = 0;
 	TCHAR usbVersion = 0;
+	TCHAR serialNumber = 0;
 
 	usbIsOpen = OpenUSBDevice();
 	usbStatue = USBDeviceStatus();
 	usbNumber = USBDeviceCount();
 	usbDeviceInfo = GetDeviceInfo();
 	usbVersion = GetUSBVersion();
+	serialNumber = GetSerialNumber();
 
 	cout << usbIsOpen << '\n' << usbNumber << '\n';
 	cout << usbDeviceInfo << '\n' << usbVersion << '\n';
+	cout << serialNumber << '\n';
 
 	printf("Hello World!\n");
 	system("pause");

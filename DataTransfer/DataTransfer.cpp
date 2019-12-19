@@ -55,3 +55,14 @@ TCHAR GetUSBVersion()
 
 	return *USBVersion;
 }
+
+TCHAR GetSerialNumber()
+{
+	long count = 100;
+	TCHAR *serialNumber = (TCHAR *)malloc(count * sizeof(TCHAR));
+	memset(serialNumber, 0, count * sizeof(TCHAR));
+
+	usbdevice.GetSerialNumber(serialNumber, count);
+
+	return *serialNumber;
+}
