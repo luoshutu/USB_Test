@@ -1,6 +1,7 @@
 // USB_Test.cpp : 定义控制台应用程序的入口点。
 //
 #include "stdafx.h"
+#include "string"
 #include "../DataTransfer/DataTransfer.h"
 
 #ifdef  _DEBUG
@@ -13,25 +14,14 @@ using namespace std;
 
 int main()
 {	
-	BOOL usbIsOpen = FALSE;
-	BOOL usbStatue = FALSE;
-	int usbNumber = 0;
-	TCHAR usbDeviceInfo = 0;
-	TCHAR usbVersion = 0;
-	TCHAR serialNumber = 0;
+	int usbDeviceNumber = 0;
+	usbDeviceNumber = GetUSBDeviceCount();
 
-	usbIsOpen = OpenUSBDevice();
-	usbStatue = USBDeviceStatus();
-	usbNumber = USBDeviceCount();
-	usbDeviceInfo = GetDeviceInfo();
-	usbVersion = GetUSBVersion();
+	string serialNumber = " ";
 	serialNumber = GetSerialNumber();
 
-	cout << usbIsOpen << '\n' << usbNumber << '\n';
-	cout << usbDeviceInfo << '\n' << usbVersion << '\n';
+	cout << usbDeviceNumber << '\n';
 	cout << serialNumber << '\n';
-
-	printf("Hello World!\n");
 	system("pause");
 
     return 0;

@@ -7,62 +7,39 @@
 
 CUSBTransfer usbdevice;
 
-BOOL OpenUSBDevice()
+BOOL CloseUSBDevice()
 {
-	BOOL status = usbdevice.OpenUSBDevice();
-
-	return status;
+	return usbdevice.CloseUSBDevice();
 }
 
-BOOL USBDeviceStatus()
+int GetUSBDeviceCount()
 {
-	BOOL status = usbdevice.USBDeviceStatus();
-
-	return status;
+	return usbdevice.GetUSBDeviceCount();
 }
 
-int USBDeviceCount()
+//------------------------------------------------//
+//----函数名：GetSerialNumber()-------------------//
+//------输入：无----------------------------------//
+//------输出：string allSerialNumber--------------//
+//------功能：返回所有设备的serialNumber----------//
+//------------------------------------------------//
+string GetSerialNumber()
 {
-	return usbdevice.USBDeviceCount();
-}
-/*
-void GetUSBVersion(TCHAR *lpsz, long count)
-{
+	int USBDeviceNumber = GetUSBDeviceCount();
+	int serialNumberLen = 10*2;
 
-}*/
+	TCHAR *serialNumber = (TCHAR *)malloc(USBDeviceNumber*serialNumberLen*sizeof(TCHAR));
+	memset(serialNumber, 0, USBDeviceNumber*serialNumberLen * sizeof(TCHAR));
 
-TCHAR GetDeviceInfo()
-{
-	long count = 100;
-	TCHAR usbDeviceInfo = 0;
-	TCHAR *deviceInfo = (TCHAR *)malloc(count * sizeof(TCHAR));
-	memset(deviceInfo, 0, count * sizeof(TCHAR));
+	usbdevice.GetSerialNumber(serialNumber, USBDeviceNumber*serialNumberLen);
 
-	usbdevice.GetDeviceInfo(deviceInfo, count);
-
-	usbDeviceInfo = *deviceInfo;
-
-	return usbDeviceInfo;
-}
-
-TCHAR GetUSBVersion()
-{
-	long count = 100;
-	TCHAR *USBVersion = (TCHAR *)malloc(count * sizeof(TCHAR));
-	memset(USBVersion, 0, count * sizeof(TCHAR));
-
-	usbdevice.GetDeviceInfo(USBVersion, count);
-
-	return *USBVersion;
+	string allSerialNumber = "";
+	for (int i = 0; i < USBDeviceNumber*serialNumberLen; i++)
+	{
+		allSerialNumber += char(*(serialNumber + i));
+	}
+	//std::cout << ((USBDeviceNumber*serialNumberLen));
+	return allSerialNumber;
 }
 
-TCHAR GetSerialNumber()
-{
-	long count = 100;
-	TCHAR *serialNumber = (TCHAR *)malloc(count * sizeof(TCHAR));
-	memset(serialNumber, 0, count * sizeof(TCHAR));
-
-	usbdevice.GetSerialNumber(serialNumber, count);
-
-	return *serialNumber;
-}
+ 

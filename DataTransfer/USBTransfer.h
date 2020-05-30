@@ -13,14 +13,14 @@ public:
 	CUSBTransfer(void);
 	virtual ~CUSBTransfer(void);
 public:
-	BOOL	OpenUSBDevice();		// 打开USB设备	
+	BOOL	OpenUSBDevice(int USBNumber);		// 打开USB设备	
 	BOOL	CloseUSBDevice();		// 关闭USB设备	
-	BOOL	USBDeviceStatus();		// 是否已经打开USB设备
-	int     USBDeviceCount();		// 检查USB设备的数量
 
-	void GetUSBVersion(TCHAR *lpsz, long count);	// 获取USB驱动版本
-	void GetDeviceInfo(TCHAR *lpsz, long count);	// 获取设备硬件版本
-	void GetSerialNumber(TCHAR *lpsz, long count);
+	void Init();					// 初始化
+
+	void GetSerialNumber(TCHAR *lpsz, int count);  // 获取USB设备序列号
+	int GetUSBDeviceCount();					   // 获取USB设备数量
+	
 	//LPCTSTR GetManufacturerName(); //获取设备制造商名称
 	//LPCTSTR GetProductName();     //获取产品名称
 //public:
@@ -86,6 +86,8 @@ public:
 private:
 	CCyUSBDevice *m_pUsbDev;
 	CRITICAL_SECTION m_cs;	//读写同步
+private:
+	int USBDeviceCount;
 };
 
 #endif
