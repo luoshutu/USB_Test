@@ -20,8 +20,8 @@ int main()
 	string serialNumber = " ";
 	serialNumber = GetSerialNumber();
 
-	cout << usbDeviceNumber << '\n';
-	cout << serialNumber << '\n';
+	cout << "USB设备数量：" << usbDeviceNumber << '\n';
+	cout << "USB设备的序列号：" << serialNumber << '\n';
 	system("pause");
 
     return 0;

@@ -35,7 +35,10 @@ void CUSBTransfer::Init()
 	USBDeviceCount = 0;
 	USBDeviceCount = m_pUsbDev->DeviceCount();	// 获取当前连接的 USB 设备数量
 
-	OpenUSBDevice(USBDeviceCount);
+	for (int i = 0; i < USBDeviceCount; i++)
+	{
+		OpenUSBDevice(i);
+	}
 }
 
 //------------------------------------------------//
@@ -51,10 +54,7 @@ BOOL CUSBTransfer::OpenUSBDevice(int USBNumber)
 		return FALSE;
 	}
 
-	for (int i = 0; i < USBNumber; i++)
-	{
-		m_pUsbDev->Open(i);
-	}
+	m_pUsbDev->Open(USBNumber);
 
 	return (m_pUsbDev != NULL && m_pUsbDev->IsOpen());
 }
